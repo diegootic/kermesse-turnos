@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap">
 <style>
   :root{
-    --paper:#FBF3EE;
+    --paper:#F5F5F4;
     --paper-raised:#FFFFFF;
     --ink:#24273A;
     --ink-soft:#5C6178;
@@ -19,7 +19,7 @@
     --ok-bg:#E4F2E8;
     --full:#9C9284;
     --full-bg:#EFEAE0;
-    --line:#EFDDD3;
+    --line:#E3E3E1;
     --danger:#A3341F;
     --warn-bg:#F8DCD3;
     --warn-text:#8A2A1E;
@@ -247,6 +247,7 @@
   }
   .refresh-btn:disabled{opacity:.5;cursor:default;}
   .day{margin-bottom:28px;}
+  .voluntary-section{margin-top:22px;}
   .day-title{
     font-size:19px;
     display:flex;
@@ -280,6 +281,7 @@
     width:84px;
     display:flex;
     flex-direction:column;
+    align-items:center;
     gap:6px;
   }
   .time-range{
@@ -287,8 +289,9 @@
     font-weight:600;
     font-size:14.5px;
     color:var(--ink);
+    text-align:center;
   }
-  .capacity-dots{display:flex;gap:4px;flex-wrap:wrap;}
+  .capacity-dots{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;}
   .dot{
     width:9px;height:9px;border-radius:50%;
     background:var(--teal);
@@ -298,7 +301,11 @@
     background:transparent;
     border:1.5px solid var(--full);
   }
-  .card-body{flex:1 1 auto;min-width:0;}
+  .card-body{flex:1 1 auto;min-width:0;text-align:center;}
+  .card-body .form,
+  .card-body .names,
+  .card-body .notice,
+  .card-body .field-hint{text-align:left;}
   .card-label{font-size:17px;}
   .card-note{
     font-size:13px;
@@ -525,7 +532,7 @@
   }
   @media (max-width:420px){
     .card{flex-direction:column;}
-    .card-time{flex-direction:row;align-items:center;width:auto;gap:10px;}
+    .card-time{flex-direction:row;align-items:center;justify-content:center;width:auto;gap:10px;}
   }
 </style>
 </head>
