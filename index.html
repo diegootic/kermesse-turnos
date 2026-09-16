@@ -1,0 +1,1061 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Turnos Kermesse Prekínder</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --paper:#FBF2E3;
+    --paper-raised:#FFFDF8;
+    --ink:#2A2118;
+    --ink-soft:#6B5D4F;
+    --teal:#0D6A5F;
+    --teal-deep:#084A43;
+    --marigold:#DB9B34;
+    --coral:#DD5B3E;
+    --ok:#3F8F5D;
+    --ok-bg:#E4F2E8;
+    --full:#9C9284;
+    --full-bg:#EFEAE0;
+    --line:#E7DCC8;
+    --danger:#B4432E;
+    --warn-bg:#FBE7D6;
+    --warn-text:#8A4A1E;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#151E1B;
+      --paper-raised:#1D2925;
+      --ink:#F2EAD9;
+      --ink-soft:#B5A891;
+      --teal:#54C8B4;
+      --teal-deep:#2E8577;
+      --marigold:#E8B563;
+      --coral:#F08064;
+      --ok:#74CE93;
+      --ok-bg:#1E3327;
+      --full:#7C7365;
+      --full-bg:#28251F;
+      --line:#33453E;
+      --danger:#F0806E;
+      --warn-bg:#3A2A18;
+      --warn-text:#F0B77E;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#151E1B;
+    --paper-raised:#1D2925;
+    --ink:#F2EAD9;
+    --ink-soft:#B5A891;
+    --teal:#54C8B4;
+    --teal-deep:#2E8577;
+    --marigold:#E8B563;
+    --coral:#F08064;
+    --ok:#74CE93;
+    --ok-bg:#1E3327;
+    --full:#7C7365;
+    --full-bg:#28251F;
+    --line:#33453E;
+    --danger:#F0806E;
+    --warn-bg:#3A2A18;
+    --warn-text:#F0B77E;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans',system-ui,-apple-system,Segoe UI,sans-serif;
+    font-size:16px;
+    line-height:1.5;
+  }
+  .wrap{
+    max-width:640px;
+    margin:0 auto;
+    padding:28px 20px 56px;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces',Georgia,serif;
+    font-weight:600;
+    text-wrap:balance;
+    margin:0;
+  }
+  .masthead{
+    text-align:center;
+    padding-bottom:22px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:22px;
+  }
+  .bunting{
+    display:flex;
+    justify-content:center;
+    gap:6px;
+    margin-bottom:16px;
+  }
+  .bunting span{
+    width:14px;
+    height:16px;
+    clip-path:polygon(0 0,100% 0,50% 100%);
+  }
+  .eyebrow{
+    text-transform:uppercase;
+    letter-spacing:.09em;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--teal);
+    margin:0 0 8px;
+  }
+  .masthead h1{
+    font-size:34px;
+    color:var(--ink);
+  }
+  .dates{
+    font-family:'Fraunces',Georgia,serif;
+    font-style:italic;
+    color:var(--coral);
+    font-size:17px;
+    margin:8px 0 14px;
+  }
+  .intro{
+    color:var(--ink-soft);
+    font-size:14.5px;
+    max-width:46ch;
+    margin:0 auto;
+  }
+  .viewtoggle{
+    display:flex;
+    justify-content:center;
+    gap:6px;
+    margin:16px 0 0;
+  }
+  .viewtoggle button{
+    font-family:'Work Sans',sans-serif;
+    font-size:13px;
+    font-weight:600;
+    padding:6px 13px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:var(--paper-raised);
+    color:var(--ink-soft);
+    cursor:pointer;
+  }
+  .viewtoggle button.active{
+    background:var(--teal);
+    border-color:var(--teal);
+    color:#fff;
+  }
+  .policy{
+    background:var(--warn-bg);
+    color:var(--warn-text);
+    border-radius:14px;
+    padding:13px 16px;
+    font-size:13.5px;
+    line-height:1.5;
+    margin:20px 0 0;
+  }
+  .policy strong{font-weight:700;}
+  .summary{
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px 16px;
+    margin:22px 0 26px;
+  }
+  .summary-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    font-size:14px;
+    margin-bottom:8px;
+  }
+  .summary-label{color:var(--ink-soft);display:flex;align-items:center;gap:8px;}
+  .summary-count{
+    font-variant-numeric:tabular-nums;
+    font-weight:600;
+    color:var(--teal);
+  }
+  .summary-bar{
+    height:8px;
+    border-radius:999px;
+    background:var(--full-bg);
+    overflow:hidden;
+  }
+  .summary-fill{
+    height:100%;
+    background:linear-gradient(90deg,var(--teal),var(--marigold));
+    border-radius:999px;
+    transition:width .3s ease;
+  }
+  .refresh-btn{
+    border:none;
+    background:none;
+    color:var(--teal-deep);
+    font-size:12px;
+    font-family:'Work Sans',sans-serif;
+    text-decoration:underline;
+    text-underline-offset:2px;
+    cursor:pointer;
+    padding:2px 4px;
+  }
+  .refresh-btn:disabled{opacity:.5;cursor:default;}
+  .day{margin-bottom:28px;}
+  .day-title{
+    font-size:19px;
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:12px;
+  }
+  .day-sub{
+    font-family:'Work Sans',sans-serif;
+    font-weight:500;
+    font-style:normal;
+    font-size:12.5px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--ink-soft);
+  }
+  .cards{display:flex;flex-direction:column;gap:12px;}
+  .card{
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:16px;
+    display:flex;
+    gap:14px;
+  }
+  .card.is-full{opacity:.82;}
+  .card.is-mine{border-color:var(--teal);}
+  .card-time{
+    flex:0 0 auto;
+    width:84px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .time-range{
+    font-variant-numeric:tabular-nums;
+    font-weight:600;
+    font-size:14.5px;
+    color:var(--ink);
+  }
+  .capacity-dots{display:flex;gap:4px;flex-wrap:wrap;}
+  .dot{
+    width:9px;height:9px;border-radius:50%;
+    background:var(--teal);
+    flex:0 0 auto;
+  }
+  .dot.empty{
+    background:transparent;
+    border:1.5px solid var(--full);
+  }
+  .card-body{flex:1 1 auto;min-width:0;}
+  .card-label{font-size:17px;}
+  .card-note{
+    font-size:13px;
+    color:var(--ink-soft);
+    margin:3px 0 10px;
+  }
+  .badge-full{
+    display:inline-block;
+    background:var(--full-bg);
+    color:var(--full);
+    font-size:12px;
+    font-weight:600;
+    padding:3px 9px;
+    border-radius:999px;
+    margin:3px 0 10px;
+  }
+  .names{list-style:none;margin:0 0 10px;padding:0;display:flex;flex-direction:column;gap:5px;}
+  .names li{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:6px;
+    font-size:14px;
+    background:var(--ok-bg);
+    color:var(--ok);
+    border-radius:8px;
+    padding:5px 8px;
+  }
+  .names li.mine{box-shadow:inset 0 0 0 1.5px var(--teal);}
+  .names .fam{font-weight:600;color:var(--ink);}
+  .names .child{color:var(--ink-soft);font-size:13px;}
+  .names .tag-mine{
+    font-size:10.5px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    color:var(--teal);
+    background:var(--paper-raised);
+    padding:1px 6px;
+    border-radius:999px;
+  }
+  .row-actions{margin-left:auto;display:flex;gap:2px;flex:0 0 auto;}
+  .edit-link,.remove,.claim-link{
+    border:none;
+    background:none;
+    color:var(--ink-soft);
+    font-size:12.5px;
+    font-family:'Work Sans',sans-serif;
+    line-height:1;
+    cursor:pointer;
+    padding:3px 6px;
+    border-radius:6px;
+    text-decoration:underline;
+    text-underline-offset:2px;
+  }
+  .remove{font-size:15px;text-decoration:none;}
+  .edit-link:hover,.claim-link:hover{color:var(--teal-deep);background:var(--paper-raised);}
+  .remove:hover{color:var(--danger);background:var(--paper-raised);}
+  .remove.confirm{color:#fff;background:var(--danger);}
+  .claim-box{
+    flex-basis:100%;
+    display:flex;
+    gap:6px;
+    margin-top:4px;
+    flex-wrap:wrap;
+  }
+  .claim-box input{
+    font:inherit;
+    font-size:13px;
+    padding:6px 9px;
+    border-radius:8px;
+    border:1px solid var(--line);
+    background:var(--paper);
+    color:var(--ink);
+    flex:1 1 140px;
+  }
+  .claim-box button{
+    font-family:'Work Sans',sans-serif;
+    font-size:12.5px;
+    font-weight:600;
+    padding:6px 10px;
+    border-radius:8px;
+    border:1px solid var(--teal);
+    background:var(--teal);
+    color:#fff;
+    cursor:pointer;
+  }
+  .claim-box .claim-cancel{
+    background:none;
+    color:var(--ink-soft);
+    border-color:var(--line);
+  }
+  .claim-err{flex-basis:100%;font-size:12px;color:var(--danger);}
+  .btn-signup{
+    background:var(--teal);
+    color:#fff;
+    border:none;
+    font-family:'Work Sans',sans-serif;
+    font-weight:600;
+    font-size:14px;
+    padding:9px 16px;
+    border-radius:10px;
+    cursor:pointer;
+  }
+  .btn-signup:hover{background:var(--teal-deep);}
+  .btn-signup:disabled{background:var(--full);cursor:default;}
+  .form{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-top:4px;
+  }
+  .form input{
+    font:inherit;
+    font-size:14.5px;
+    padding:9px 11px;
+    border-radius:9px;
+    border:1px solid var(--line);
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .field-hint{font-size:11.5px;color:var(--ink-soft);margin:-4px 0 0;}
+  .form input:focus-visible,
+  button:focus-visible,
+  a:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+  .form-actions{display:flex;gap:8px;}
+  .btn-cancel{
+    background:none;
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+    font-family:'Work Sans',sans-serif;
+    font-size:14px;
+    padding:9px 14px;
+    border-radius:10px;
+    cursor:pointer;
+  }
+  .notice{
+    font-size:13.5px;
+    border-radius:10px;
+    padding:9px 12px;
+    margin-top:8px;
+  }
+  .notice.error{background:var(--full-bg);color:var(--danger);}
+  .notice.info{background:var(--ok-bg);color:var(--teal-deep);}
+  .notice.warn{background:var(--warn-bg);color:var(--warn-text);}
+  .form select{
+    font:inherit;
+    font-size:14.5px;
+    padding:9px 11px;
+    border-radius:9px;
+    border:1px solid var(--line);
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .banner{
+    background:var(--full-bg);
+    color:var(--ink);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:10px 14px;
+    font-size:13.5px;
+    margin-bottom:18px;
+  }
+  .summary-view{
+    overflow-x:auto;
+    border:1px solid var(--line);
+    border-radius:14px;
+    background:var(--paper-raised);
+  }
+  table.recap{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13.5px;
+    min-width:520px;
+  }
+  table.recap th,table.recap td{
+    text-align:left;
+    padding:9px 12px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  table.recap th{
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--ink-soft);
+    font-weight:600;
+  }
+  table.recap tr:last-child td{border-bottom:none;}
+  table.recap .rc-time{font-variant-numeric:tabular-nums;white-space:nowrap;}
+  table.recap .rc-cupo{font-variant-numeric:tabular-nums;white-space:nowrap;}
+  table.recap .rc-full{color:var(--full);}
+  .foot{
+    margin-top:8px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+    color:var(--ink-soft);
+    font-size:13px;
+    text-align:center;
+  }
+  .loading{
+    text-align:center;
+    padding:60px 20px;
+    color:var(--ink-soft);
+    font-size:14.5px;
+  }
+  .spinner{
+    width:22px;height:22px;
+    border-radius:50%;
+    border:2.5px solid var(--line);
+    border-top-color:var(--teal);
+    margin:0 auto 14px;
+    animation:spin .8s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+  @media (prefers-reduced-motion: reduce){
+    .spinner{animation:none;}
+  }
+  @media (max-width:420px){
+    .card{flex-direction:column;}
+    .card-time{flex-direction:row;align-items:center;width:auto;gap:10px;}
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="wrap">
+    <div class="loading"><div class="spinner" aria-hidden="true"></div>Cargando turnos…</div>
+  </div>
+</div>
+<script>
+(function(){
+  // URL del backend en Google Apps Script (privado a Diego, invisible a los visitantes).
+  var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwDCzJVoMeP34EXDo15PzRYkigQpIoOEbOwk7hZfo7BigPpLsMGiCCbeylt7kE9MN15/exec";
+  var STORE_KEY = "kermesse-owned-tokens-v1";
+  var AUTO_REFRESH_MS = 25000;
+
+  var app = document.getElementById("app");
+  var state = { turnos: [], signups: {}, loaded: false, loadError: null };
+  var writeBlocked = false;
+  var saving = false;
+  var refreshing = false;
+  var viewMode = "cards";
+  var formMode = null;
+  var draft = { apoderado: "", alumno: "", email: "" };
+  var confirmRemove = null;
+  var claimTarget = null;
+  var claimEmail = "";
+  var claimError = null;
+  var formError = null;
+  var ownedTokens = loadOwned();
+
+  var ROSTER = ["Álvarez Ruiz Laura","Arriagada Morales Máximo Jaime","Brown John","Canio Pino Agustín","De La O Corbalan Santiago Tenoch","Douglas Navarrete Facundo Alberto","Duran Tapia Aura Isabel Luz","Escobar Correa Leonor","Fernández Suarez Borja","Fuentes Faccilongo Arturo","Godoy Silva José Domingo","Gonzalez García Maia Amara","González Ramírez Alonso","Gutiérrez Fernández Ignacia Antonia","Jiménez Fernández Gracia","Maass Vergara Benjamín","Manquez Quintana Noelia","Martínez Carmona Máximo Andrés","Martínez Espinoza Lucía","Molina Vicentela Antonella Ignacia","Morales Arriagada Fernanda Angelina","Poloni Cofré Martin Ignacio","Ramírez Valderrama Pascalle","Rojas Fuentes Pablo Andrés","Rojas González Emilio","Romero Sotelo Emma Ignacia","Saldías Rodríguez Leticia Isabel","Serrano Veas Estela Trinidad","Toledo Procopio Isadora","Toro Guzmán Agustina Paz","Torres Vasseur Gonzalo Agustín","Verdugo Rodríguez Simona","Villegas Pastene Raul Ignacio"];
+
+  function loadOwned(){
+    try{
+      var raw = localStorage.getItem(STORE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    }catch(e){ return {}; }
+  }
+  function markOwned(token){
+    try{
+      ownedTokens[token] = true;
+      localStorage.setItem(STORE_KEY, JSON.stringify(ownedTokens));
+    }catch(e){}
+  }
+
+  function hashText(str){
+    if (window.crypto && window.crypto.subtle){
+      try{
+        var enc = new TextEncoder().encode(str);
+        return window.crypto.subtle.digest("SHA-256", enc).then(function(buf){
+          return Array.prototype.map.call(new Uint8Array(buf), function(b){ return ("0"+b.toString(16)).slice(-2); }).join("");
+        }).catch(function(){ return Promise.resolve(fallbackHash(str)); });
+      }catch(e){ return Promise.resolve(fallbackHash(str)); }
+    }
+    return Promise.resolve(fallbackHash(str));
+  }
+  function fallbackHash(str){
+    var h = 5381;
+    for (var i=0;i<str.length;i++){ h = ((h*33) ^ str.charCodeAt(i)) >>> 0; }
+    return "fb" + h.toString(16);
+  }
+  function normEmail(e){ return (e||"").trim().toLowerCase(); }
+  function looksLikeEmail(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+  function esc(s){
+    return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+
+  function findAlumnoConflict(alumnoName, currentTurnoId, excludeToken){
+    var name = (alumnoName || "").trim().toLowerCase();
+    if (!name) return null;
+    var elsewhere = null;
+    for (var i=0;i<state.turnos.length;i++){
+      var t = state.turnos[i];
+      var list = state.signups[t.id] || [];
+      for (var j=0;j<list.length;j++){
+        var s = list[j];
+        if (excludeToken && s.token === excludeToken) continue;
+        if ((s.alumno || "").trim().toLowerCase() === name){
+          if (t.id === currentTurnoId) return {sameTurno:true, turno:t};
+          if (!elsewhere) elsewhere = {sameTurno:false, turno:t};
+        }
+      }
+    }
+    return elsewhere;
+  }
+
+  function countFor(id){ return (state.signups[id] || []).length; }
+  function totalCupo(){ return state.turnos.reduce(function(a,t){return a+t.cupo;},0); }
+  function totalSignups(){
+    var n=0;
+    state.turnos.forEach(function(t){ n += countFor(t.id); });
+    return n;
+  }
+  function dots(cupo, filled){
+    var out = "";
+    for (var i=0;i<cupo;i++){ out += '<span class="dot' + (i<filled?"":" empty") + '"></span>'; }
+    return out;
+  }
+
+  // --- backend ---
+  function apiGet(){
+    return fetch(SCRIPT_URL, { method: "GET" }).then(function(r){ return r.json(); });
+  }
+  function apiPost(payload){
+    return fetch(SCRIPT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" }, // evita preflight CORS
+      body: JSON.stringify(payload)
+    }).then(function(r){ return r.json(); });
+  }
+
+  function loadInitial(){
+    apiGet().then(function(res){
+      if (!res || !res.ok){ state.loadError = true; render(); return; }
+      state.turnos = res.turnos;
+      state.signups = res.signups;
+      state.loaded = true;
+      render();
+      scheduleAutoRefresh();
+    }).catch(function(){
+      state.loadError = true;
+      render();
+    });
+  }
+
+  var refreshTimer = null;
+  function scheduleAutoRefresh(){
+    if (refreshTimer) clearTimeout(refreshTimer);
+    refreshTimer = setTimeout(function(){
+      // no interrumpir si alguien está escribiendo en un formulario
+      if (formMode){ scheduleAutoRefresh(); return; }
+      doRefresh(true);
+    }, AUTO_REFRESH_MS);
+  }
+  function doRefresh(silent){
+    if (refreshing) return;
+    refreshing = true;
+    if (!silent) render();
+    apiGet().then(function(res){
+      refreshing = false;
+      if (res && res.ok){
+        state.turnos = res.turnos;
+        state.signups = res.signups;
+        state.loadError = null;
+      }
+      render();
+      scheduleAutoRefresh();
+    }).catch(function(){
+      refreshing = false;
+      render();
+      scheduleAutoRefresh();
+    });
+  }
+
+  function cardHtml(t){
+    var list = state.signups[t.id] || [];
+    var filled = list.length;
+    var full = filled >= t.cupo;
+    var hasMine = list.some(function(s){ return ownedTokens[s.token]; });
+
+    var names = list.map(function(s){
+      var mine = !!ownedTokens[s.token];
+      var removing = confirmRemove === s.token;
+      var claiming = claimTarget === s.token;
+      var actions = "";
+      if (mine){
+        actions = '<span class="row-actions">' +
+          '<button class="edit-link" data-action="editrow" data-turno="' + t.id + '" data-token="' + s.token + '">Editar</button>' +
+          '<button class="remove' + (removing?" confirm":"") + '" data-action="remove" data-turno="' + t.id + '" data-token="' + s.token + '" aria-label="Quitar inscripción">' + (removing?"¿Seguro?":"×") + '</button>' +
+        '</span>';
+      } else {
+        actions = '<span class="row-actions">' +
+          '<button class="claim-link" data-action="wantclaim" data-turno="' + t.id + '" data-token="' + s.token + '">¿Es tuya?</button>' +
+        '</span>';
+      }
+      var claimBox = claiming ?
+        '<span class="claim-box">' +
+          '<input type="email" id="claim-email" placeholder="Correo con el que te anotaste" value="' + esc(claimEmail) + '">' +
+          '<button data-action="doclaim" data-turno="' + t.id + '" data-token="' + s.token + '">Verificar</button>' +
+          '<button class="claim-cancel" data-action="cancelclaim">Cancelar</button>' +
+          (claimError === s.token ? '<span class="claim-err">Ese correo no coincide con esta inscripción.</span>' : '') +
+        '</span>' : '';
+      return '<li class="' + (mine?"mine":"") + '"><span class="fam">' + esc(s.apoderado) + '</span> <span class="child">(' + esc(s.alumno) + ')</span>' +
+        (mine ? ' <span class="tag-mine">Tú</span>' : '') + actions + claimBox + '</li>';
+    }).join("");
+
+    var isAdd = formMode && formMode.type==="add" && formMode.turnoId===t.id;
+    var editing = formMode && formMode.type==="edit" && formMode.turnoId===t.id;
+    var actionHtml;
+
+    function alumnoSelectHtml(){
+      var opts = '<option value=""' + (!draft.alumno?' selected':'') + ' disabled>Selecciona al alumno/a…</option>' +
+        ROSTER.map(function(n){ return '<option value="' + esc(n) + '"' + (draft.alumno===n?' selected':'') + '>' + esc(n) + '</option>'; }).join('');
+      return '<select id="alumno-' + t.id + '">' + opts + '</select>';
+    }
+    function conflictNoticeHtml(excludeToken){
+      var conflict = findAlumnoConflict(draft.alumno, t.id, excludeToken || null);
+      if (!conflict || conflict.sameTurno) return '';
+      var ct = conflict.turno;
+      return '<p class="notice warn">⚠️ ' + esc(draft.alumno) + ' ya está anotado en «' + esc(ct.label) + '», ' + esc(ct.day) + ' ' + ct.start + '–' + ct.end + '. Si es a propósito, puedes continuar.</p>';
+    }
+
+    if (editing){
+      actionHtml =
+        '<div class="form" data-form="' + t.id + '">' +
+          '<input type="text" id="apoderado-' + t.id + '" placeholder="Apoderado/a (nombre y apellido)" value="' + esc(draft.apoderado) + '" autocomplete="name">' +
+          alumnoSelectHtml() +
+          conflictNoticeHtml(formMode.token) +
+          '<div class="form-actions">' +
+            '<button class="btn-signup" data-action="savedit" data-turno="' + t.id + '"' + (saving?" disabled":"") + '>' + (saving?"Guardando…":"Guardar cambios") + '</button>' +
+            '<button class="btn-cancel" data-action="cancel" data-turno="' + t.id + '">Cancelar</button>' +
+          '</div>' +
+          (formError && formError.turno===t.id ? '<p class="notice error">' + esc(formError.msg) + '</p>' : '') +
+        '</div>';
+    } else if (isAdd){
+      actionHtml =
+        '<div class="form" data-form="' + t.id + '">' +
+          '<input type="text" id="apoderado-' + t.id + '" placeholder="Apoderado/a (nombre y apellido)" value="' + esc(draft.apoderado) + '" autocomplete="name">' +
+          alumnoSelectHtml() +
+          conflictNoticeHtml(null) +
+          '<input type="email" id="email-' + t.id + '" placeholder="Tu correo (para editar después)" value="' + esc(draft.email) + '" autocomplete="email">' +
+          '<p class="field-hint">Lo usarás si luego quieres editar o quitar tu inscripción desde otro dispositivo.</p>' +
+          '<div class="form-actions">' +
+            '<button class="btn-signup" data-action="confirm" data-turno="' + t.id + '"' + (saving?" disabled":"") + '>' + (saving?"Guardando…":"Confirmar") + '</button>' +
+            '<button class="btn-cancel" data-action="cancel" data-turno="' + t.id + '">Cancelar</button>' +
+          '</div>' +
+          (formError && formError.turno===t.id ? '<p class="notice error">' + esc(formError.msg) + '</p>' : '') +
+        '</div>';
+    } else if (full){
+      actionHtml = '<span class="badge-full">Cupo completo</span>';
+    } else {
+      actionHtml = '<button class="btn-signup" data-action="open" data-turno="' + t.id + '"' + (writeBlocked?" disabled":"") + '>Anotarme</button>';
+    }
+
+    return '<article class="card' + (full?" is-full":"") + (hasMine?" is-mine":"") + '" data-turno="' + t.id + '">' +
+      '<div class="card-time"><span class="time-range">' + t.start + '–' + t.end + '</span><span class="capacity-dots" aria-hidden="true">' + dots(t.cupo, filled) + '</span></div>' +
+      '<div class="card-body">' +
+        '<h3 class="card-label">' + esc(t.label) + '</h3>' +
+        '<p class="card-note">' + filled + ' de ' + t.cupo + ' familias' + (t.note ? ' · ' + esc(t.note) : '') + '</p>' +
+        (names ? '<ul class="names">' + names + '</ul>' : '') +
+        actionHtml +
+      '</div>' +
+    '</article>';
+  }
+
+  function groupByDay(){
+    var byDay = [];
+    state.turnos.forEach(function(t){
+      var group = byDay.find(function(g){return g.day===t.day;});
+      if (!group){ group = {day:t.day, daySub:t.daySub, items:[]}; byDay.push(group); }
+      group.items.push(t);
+    });
+    return byDay;
+  }
+
+  function recapHtml(){
+    var rows = state.turnos.map(function(t){
+      var list = state.signups[t.id] || [];
+      var full = list.length >= t.cupo;
+      var names = list.map(function(s){ return esc(s.apoderado) + " (" + esc(s.alumno) + ")"; }).join(", ") || "—";
+      return '<tr>' +
+        '<td>' + esc(t.day) + '<br><span style="color:var(--ink-soft);font-size:12px;">' + esc(t.label) + '</span></td>' +
+        '<td class="rc-time">' + t.start + '–' + t.end + '</td>' +
+        '<td class="rc-cupo' + (full?" rc-full":"") + '">' + list.length + '/' + t.cupo + '</td>' +
+        '<td>' + names + '</td>' +
+      '</tr>';
+    }).join("");
+    return '<div class="summary-view"><table class="recap">' +
+      '<thead><tr><th>Turno</th><th>Horario</th><th>Cupos</th><th>Familias</th></tr></thead>' +
+      '<tbody>' + rows + '</tbody></table></div>';
+  }
+
+  function render(){
+    if (!state.loaded && state.loadError){
+      app.innerHTML = '<div class="wrap"><div class="loading">No se pudo cargar la información.<br><br>' +
+        '<button class="btn-signup" data-action="retry-load">Reintentar</button></div></div>';
+      wireGlobal();
+      return;
+    }
+    if (!state.loaded){
+      app.innerHTML = '<div class="wrap"><div class="loading"><div class="spinner" aria-hidden="true"></div>Cargando turnos…</div></div>';
+      return;
+    }
+
+    var total = totalCupo();
+    var filled = totalSignups();
+    var pct = total ? Math.round((filled/total)*100) : 0;
+    var flagColors = ["var(--teal)","var(--marigold)","var(--coral)","var(--teal)","var(--marigold)"];
+    var bunting = flagColors.map(function(c){return '<span style="background:'+c+'"></span>';}).join("");
+
+    var body;
+    if (viewMode === "summary"){
+      body = recapHtml();
+    } else {
+      body = groupByDay().map(function(g){
+        return '<section class="day"><h2 class="day-title">' + esc(g.day) + ' <span class="day-sub">' + esc(g.daySub) + '</span></h2>' +
+          '<div class="cards">' + g.items.map(cardHtml).join("") + '</div></section>';
+      }).join("");
+    }
+
+    var html =
+      '<div class="wrap">' +
+        '<header class="masthead">' +
+          '<div class="bunting">' + bunting + '</div>' +
+          '<p class="eyebrow">Kermesse St Peters · Prekínder</p>' +
+          '<h1>Turnos del stand</h1>' +
+          '<p class="dates">Viernes 2 y sábado 3 de octubre, 2026</p>' +
+          '<p class="intro">Elige el turno que más te acomode y anota a tu familia. Los cupos son limitados — cuando se llenan, el turno queda marcado como completo.</p>' +
+          '<div class="viewtoggle">' +
+            '<button data-action="view" data-view="cards" class="' + (viewMode==="cards"?"active":"") + '">Tarjetas</button>' +
+            '<button data-action="view" data-view="summary" class="' + (viewMode==="summary"?"active":"") + '">Resumen</button>' +
+          '</div>' +
+          '<p class="policy"><strong>Importante:</strong> las familias que no participen activamente en el turno que eligieron deberán pagar una multa de $30.000, y no participarán de las ganancias generadas por el stand.</p>' +
+        '</header>' +
+        (writeBlocked ? '<div class="banner">No se pudo conectar con el registro — tus cambios podrían no guardarse. Intenta recargar la página.</div>' : '') +
+        '<section class="summary" aria-live="polite">' +
+          '<div class="summary-row"><span class="summary-label">Familias anotadas' +
+            (refreshing ? ' <span style="opacity:.6">· actualizando…</span>' : ' <button class="refresh-btn" data-action="refresh">actualizar</button>') +
+          '</span><span class="summary-count">' + filled + ' / ' + total + '</span></div>' +
+          '<div class="summary-bar"><div class="summary-fill" style="width:' + pct + '%"></div></div>' +
+        '</section>' +
+        body +
+        '<footer class="foot"><p>¿Anotado desde otro celular o computador? Usa "¿Es tuya?" junto a tu nombre e ingresa el correo con el que te anotaste para poder editar o quitar tu inscripción.</p></footer>' +
+      '</div>';
+
+    app.innerHTML = html;
+    wire();
+  }
+
+  function wireGlobal(){
+    var retryBtn = app.querySelector('[data-action="retry-load"]');
+    if (retryBtn) retryBtn.addEventListener("click", function(){
+      state.loadError = null;
+      render();
+      loadInitial();
+    });
+  }
+
+  function wire(){
+    app.querySelectorAll('[data-action="view"]').forEach(function(btn){
+      btn.addEventListener("click", function(){
+        viewMode = btn.getAttribute("data-view");
+        render();
+      });
+    });
+    app.querySelectorAll('[data-action="refresh"]').forEach(function(btn){
+      btn.addEventListener("click", function(){ doRefresh(false); });
+    });
+    app.querySelectorAll('[data-action="open"]').forEach(function(btn){
+      btn.addEventListener("click", function(){
+        formMode = {type:"add", turnoId: btn.getAttribute("data-turno")};
+        draft = {apoderado:"",alumno:"",email:""};
+        formError = null;
+        render();
+        var el = document.getElementById("apoderado-" + formMode.turnoId);
+        if (el) el.focus();
+      });
+    });
+    app.querySelectorAll('[data-action="editrow"]').forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var turnoId = btn.getAttribute("data-turno");
+        var token = btn.getAttribute("data-token");
+        var entry = (state.signups[turnoId] || []).find(function(s){return s.token===token;});
+        if (!entry) return;
+        formMode = {type:"edit", turnoId: turnoId, token: token};
+        draft = {apoderado: entry.apoderado, alumno: entry.alumno, email:""};
+        formError = null;
+        render();
+        var el = document.getElementById("apoderado-" + turnoId);
+        if (el) el.focus();
+      });
+    });
+    app.querySelectorAll('[data-action="cancel"]').forEach(function(btn){
+      btn.addEventListener("click", function(){
+        formMode = null;
+        formError = null;
+        render();
+      });
+    });
+    app.querySelectorAll('.form input').forEach(function(inp){
+      inp.addEventListener("input", function(){
+        if (inp.id.indexOf("apoderado-")===0) draft.apoderado = inp.value;
+        else if (inp.id.indexOf("email-")===0) draft.email = inp.value;
+      });
+    });
+    app.querySelectorAll('.form select').forEach(function(sel){
+      sel.addEventListener("change", function(){
+        if (sel.id.indexOf("alumno-")===0){
+          draft.alumno = sel.value;
+          render();
+        }
+      });
+    });
+    app.querySelectorAll('[data-action="confirm"]').forEach(function(btn){
+      btn.addEventListener("click", function(){ submitAdd(btn.getAttribute("data-turno")); });
+    });
+    app.querySelectorAll('[data-action="savedit"]').forEach(function(btn){
+      btn.addEventListener("click", function(){ submitEdit(btn.getAttribute("data-turno")); });
+    });
+    app.querySelectorAll('[data-action="remove"]').forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var turno = btn.getAttribute("data-turno");
+        var token = btn.getAttribute("data-token");
+        if (confirmRemove === token){
+          confirmRemove = null;
+          submitRemove(turno, token);
+        } else {
+          confirmRemove = token;
+          render();
+          setTimeout(function(){
+            if (confirmRemove === token){ confirmRemove = null; render(); }
+          }, 3500);
+        }
+      });
+    });
+    app.querySelectorAll('[data-action="wantclaim"]').forEach(function(btn){
+      btn.addEventListener("click", function(){
+        claimTarget = btn.getAttribute("data-token");
+        claimEmail = "";
+        claimError = null;
+        render();
+        var el = document.getElementById("claim-email");
+        if (el) el.focus();
+      });
+    });
+    app.querySelectorAll('[data-action="cancelclaim"]').forEach(function(btn){
+      btn.addEventListener("click", function(){
+        claimTarget = null;
+        claimError = null;
+        render();
+      });
+    });
+    var claimInput = document.getElementById("claim-email");
+    if (claimInput){
+      claimInput.addEventListener("input", function(){ claimEmail = claimInput.value; });
+    }
+    app.querySelectorAll('[data-action="doclaim"]').forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var turnoId = btn.getAttribute("data-turno");
+        var token = btn.getAttribute("data-token");
+        var entry = (state.signups[turnoId] || []).find(function(s){return s.token===token;});
+        if (!entry) return;
+        hashText(normEmail(claimEmail)).then(function(hash){
+          return apiPost({action:"claim", turnoId: turnoId, token: token, emailHash: hash}).then(function(res){
+            if (res && res.ok){
+              markOwned(token);
+              claimTarget = null;
+              claimError = null;
+            } else {
+              claimError = token;
+            }
+            render();
+          });
+        }).catch(function(){
+          claimError = token;
+          render();
+        });
+      });
+    });
+  }
+
+  function validateAddDraft(turnoId){
+    var apoderado = (draft.apoderado || "").trim();
+    var alumno = (draft.alumno || "").trim();
+    var email = normEmail(draft.email);
+    if (!apoderado || !alumno || !email){
+      formError = {turno:turnoId, msg:"Completa apoderado, alumno/a y correo para confirmar."};
+      render();
+      return null;
+    }
+    if (!looksLikeEmail(email)){
+      formError = {turno:turnoId, msg:"Ingresa un correo válido."};
+      render();
+      return null;
+    }
+    var conflict = findAlumnoConflict(alumno, turnoId, null);
+    if (conflict && conflict.sameTurno){
+      formError = {turno:turnoId, msg:"Este alumno/a ya está anotado en este turno."};
+      render();
+      return null;
+    }
+    return {apoderado:apoderado, alumno:alumno, email:email};
+  }
+
+  function validateEditDraft(turnoId){
+    var apoderado = (draft.apoderado || "").trim();
+    var alumno = (draft.alumno || "").trim();
+    if (!apoderado || !alumno){
+      formError = {turno:turnoId, msg:"Completa ambos campos para confirmar."};
+      render();
+      return null;
+    }
+    var conflict = findAlumnoConflict(alumno, turnoId, formMode ? formMode.token : null);
+    if (conflict && conflict.sameTurno){
+      formError = {turno:turnoId, msg:"Este alumno/a ya está anotado en este turno."};
+      render();
+      return null;
+    }
+    return {apoderado:apoderado, alumno:alumno};
+  }
+
+  function errMsg(code){
+    if (code === "full") return "Este turno ya se llenó. Elige otro.";
+    if (code === "duplicate_same_turno") return "Este alumno/a ya está anotado en este turno.";
+    if (code === "not_found") return "Esta inscripción ya no existe. Actualiza la página.";
+    return "No se pudo guardar. Intenta de nuevo.";
+  }
+
+  function submitAdd(turnoId){
+    var vals = validateAddDraft(turnoId);
+    if (!vals) return;
+    var t = state.turnos.find(function(x){return x.id===turnoId;});
+    if (!t || countFor(turnoId) >= t.cupo){
+      formError = {turno:turnoId, msg:"Este turno ya se llenó. Elige otro."};
+      render();
+      return;
+    }
+    saving = true;
+    render();
+    hashText(vals.email).then(function(emailHash){
+      return apiPost({action:"add", turnoId:turnoId, apoderado:vals.apoderado, alumno:vals.alumno, emailHash:emailHash});
+    }).then(function(res){
+      saving = false;
+      if (res && res.ok){
+        state.turnos = res.turnos;
+        state.signups = res.signups;
+        markOwned(res.token);
+        formMode = null;
+        draft = {apoderado:"",alumno:"",email:""};
+        formError = null;
+      } else {
+        formError = {turno:turnoId, msg: errMsg(res && res.error)};
+      }
+      render();
+    }).catch(function(){
+      saving = false;
+      formError = {turno:turnoId, msg:"No se pudo guardar — revisa tu conexión e intenta de nuevo."};
+      render();
+    });
+  }
+
+  function submitEdit(turnoId){
+    var vals = validateEditDraft(turnoId);
+    if (!vals) return;
+    var token = formMode.token;
+    saving = true;
+    render();
+    apiPost({action:"edit", token:token, turnoId:turnoId, apoderado:vals.apoderado, alumno:vals.alumno}).then(function(res){
+      saving = false;
+      if (res && res.ok){
+        state.turnos = res.turnos;
+        state.signups = res.signups;
+        formMode = null;
+        draft = {apoderado:"",alumno:"",email:""};
+        formError = null;
+      } else {
+        formError = {turno:turnoId, msg: errMsg(res && res.error)};
+      }
+      render();
+    }).catch(function(){
+      saving = false;
+      formError = {turno:turnoId, msg:"No se pudo guardar — revisa tu conexión e intenta de nuevo."};
+      render();
+    });
+  }
+
+  function submitRemove(turnoId, token){
+    apiPost({action:"remove", token:token}).then(function(res){
+      if (res && res.ok){
+        state.turnos = res.turnos;
+        state.signups = res.signups;
+      }
+      render();
+    }).catch(function(){ render(); });
+  }
+
+  loadInitial();
+})();
+</script>
+</body>
+</html>
