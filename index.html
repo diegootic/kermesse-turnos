@@ -691,10 +691,13 @@
   }
 
   function shiftTurnos(){
-    return state.turnos.filter(function(t){ return !t.decline; });
+    return state.turnos.filter(function(t){ return !t.decline && !t.voluntary; });
   }
   function declineTurno(){
     return state.turnos.find(function(t){ return t.decline; }) || null;
+  }
+  function voluntaryTurno(){
+    return state.turnos.find(function(t){ return t.voluntary; }) || null;
   }
 
   function namesListHtml(t, list){
@@ -863,6 +866,16 @@
         '<td>' + names + '</td>' +
       '</tr>';
     }).join("");
+    var vt = voluntaryTurno();
+    var voluntaryList = vt ? (state.signups[vt.id] || []) : [];
+    var voluntaryRow = vt ? (
+      '<tr>' +
+        '<td>' + esc(vt.label) + '<br><span style="color:var(--ink-soft);font-size:12px;">Voluntario — no cuenta en el total</span></td>' +
+        '<td class="rc-time">' + vt.start + '–' + vt.end + '</td>' +
+        '<td class="rc-cupo">' + voluntaryList.length + '/' + vt.cupo + '</td>' +
+        '<td>' + (voluntaryList.map(function(s){ return esc(s.apoderado) + " (" + esc(s.alumno) + ")"; }).join(", ") || "—") + '</td>' +
+      '</tr>'
+    ) : '';
     var dt = declineTurno();
     var declineList = dt ? (state.signups[dt.id] || []) : [];
     var declineRow = dt ? (
@@ -875,7 +888,7 @@
     ) : '';
     return '<div class="summary-view"><table class="recap">' +
       '<thead><tr><th>Turno</th><th>Horario</th><th>Cupos</th><th>Familias</th></tr></thead>' +
-      '<tbody>' + rows + declineRow + '</tbody></table></div>';
+      '<tbody>' + rows + voluntaryRow + declineRow + '</tbody></table></div>';
   }
 
   function render(){
@@ -896,6 +909,12 @@
     var flagColors = ["var(--teal)","var(--marigold)","var(--coral)","var(--teal)","var(--marigold)"];
     var bunting = flagColors.map(function(c){return '<span style="background:'+c+'"></span>';}).join("");
     var declineBlock = declineHtml(declineTurno());
+    var voluntary = voluntaryTurno();
+    var voluntaryBlock = voluntary ?
+      '<section class="day voluntary-section">' +
+        '<h2 class="day-title">' + esc(voluntary.day) + ' <span class="day-sub">Voluntario · no cuenta como turno</span></h2>' +
+        '<div class="cards">' + cardHtml(voluntary) + '</div>' +
+      '</section>' : '';
 
     var body;
     if (viewMode === "summary"){
@@ -920,6 +939,7 @@
             '<button data-action="view" data-view="summary" class="' + (viewMode==="summary"?"active":"") + '">Resumen</button>' +
           '</div>' +
           declineBlock +
+          voluntaryBlock +
           '<p class="policy"><strong>Importante:</strong> las familias que no participen activamente en el turno que eligieron deberán pagar una multa de $30.000, y no participarán de las ganancias generadas por el stand. Si ya sabes que no vas a poder ir, avísanos arriba — así queda registrado desde antes.</p>' +
         '</header>' +
         (writeBlocked ? '<div class="banner">No se pudo conectar con el registro — tus cambios podrían no guardarse. Intenta recargar la página.</div>' : '') +
